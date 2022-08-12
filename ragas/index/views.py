@@ -43,7 +43,7 @@ def index(request):
         except:
             print("Invalid")
             return render(request,'index.html',{'data':"None",'error':"Sorry Invalid Video"})
-        filename = 'audio.wav'
+        filename = 'audio_' + link.split('/')[-1] + '.wav'
         y,sr = librosa.load(filename)
         dur = librosa.get_duration(filename=filename)
         tstart = 465
