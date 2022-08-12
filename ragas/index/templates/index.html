@@ -1,0 +1,98 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+        <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/tasker.png' %}">
+
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body style="background-image: url('/static/images/carnatic-vocal.png'); 
+  background-repeat: no-repeat; /* Do not repeat the image */
+  -webkit-background-size:cover;
+  -moz-background-size:cover;
+  -o-background-size:cover;
+  background-size: cover;">
+
+    <div class="container">
+        <div class="container text-center">
+            <div class="row text-center">
+                <div class="col">
+                    <div class="text_color" > The Raga Classifier </div>
+                </div>
+            </div>
+            <div class="text-center font-weight-bold" style="padding-top: 20px;">
+                This innovative model developed in order to detect Raga of Hindustani Classical music. The data is taken from the Indian classical music dataset (Comp music dataset) which contains details of around 116 hours. First, the features of audio such as Mel-Frequency Cepstral Coefficient (MFCC) and Mel-spectrogram are extracted from the dataset. These extracted features are then given as input the Bidirectional Long short term memory based model. 30 ragas of Hindustani classical music is considered for evaluation. The model is trained for 500 epochs which is giving as accuracy of 75% for training and validation data. The Confusion matrix and classification report for all the ragas are depicted and the model is evaluated with youtube videos for validation.
+            </div>
+            <form method = "POST" class="results">
+            {% csrf_token %}
+            <div class="row text-center">
+                <div class="col" style="padding-top: 10px;">
+                  <input type="text" class="form-control" name="link" placeholder="Enter youtube Link here">
+                </div>
+                <div class="col col-md-2" style="padding-top: 10px;">
+                  <!-- Button trigger modal -->
+                  <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#addTask" style="border-radius: 40px;">
+                    Submit
+                  </button>
+                </div>
+            </div>
+            </form>
+            {% if data != "None"%}
+            <br/>
+            {% load embed_video_tags %}
+            {% video embed '560x315' %}
+            {% comment %} <iframe width="560" height="315" src={{embed}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> {% endcomment %}
+            <div class="alert alert-success" role="alert" id="res">
+              Predicted Raga is {{data}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            {% endif %}
+            {% if error != ""%}
+            <div class="alert alert-danger" role="alert" id="res2">
+              {{error}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            {% endif %}
+            <div class="modal" id="addTask"/>           
+              <div class="text-center" style="padding-top: 100px; color: red;">
+                <img src= {% static 'images/Ya16.gif' %}/>
+              </div>
+            </div>
+        </div>
+            
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      $(document).on('submit', '.login-form', function(e){
+        e.preventDefault();
+        $.ajax({ 
+            type: $(this).attr('method'), 
+            url: this.action, 
+            data: $(this).serialize(),
+            context: this,
+            success: function(data, status) {
+                $('#addTask').html("Please Wait for Ur Response");
+                $('.alert').show()
+            },
+            failure: function() {
+                    
+            }
+            });
+            //return false;
+        });
+    </script>
+  </body>
+</html>

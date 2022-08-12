@@ -1,0 +1,38 @@
+.adanger{
+    color: #dc3545; /* red */
+}
+
+.bwarning{
+    color: #ffc107; /* orange */
+}
+
+.csuccess{
+    color: #28a745; /* green */
+}
+
+.dprimary{
+    color: #007bff; /* blue */
+}
+
+.adanger:hover{
+    color: #dc3545; /* red */
+}
+
+.bwarning:hover{
+    color: #ffc107; /* orange */
+}
+
+.csuccess:hover{
+    color: #28a745; /* green */
+}
+
+.dprimary:hover{
+    color: #007bff; /* blue */
+}
+
+.text_color{
+    color: tomato;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: xxx-large;
+    font-weight: bolder;
+}
