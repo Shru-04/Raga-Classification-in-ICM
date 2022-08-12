@@ -26,16 +26,16 @@ def index(request):
         # Enter model code here
         df,raga_sto_ragaId = read_csv_file()
         model = load_model('500epochsAdam.h5')
+        link = request.POST['link']
         ydl_opts = {
             'format': 'bestaudio/best',
-            'outtmpl': 'audio.wav',
+            'outtmpl': 'audio_' + link.split('/')[-1] + '.wav',
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'wav',
                 'preferredquality': '192',
             }],
         }
-        link = request.POST['link']
         context['embed'] = link + "?controls=0"
         try:
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
